@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "updater",
+  "version": "${version}",
+
+  "name": "updater",
+  "description": "Automatic modpack updater",
+  "authors": [
+    "Commander07"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/serverpack-priority",
+    "sources": "https://github.com/Commander07/Severpack-Priority"
+  },
+
+  "license": "",
+  "icon": "assets/updater/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.wynncraft_overhaul.updater.Updater"
+    ]
+  },
+  "mixins": [
+    "updater.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.17",
+    "fabric-api": "*",
+    "minecraft": "~1.19.3",
+    "java": ">=17"
+  },
+  "suggests": {}
+}
