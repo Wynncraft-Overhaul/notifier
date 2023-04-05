@@ -1,3 +1,3 @@
-# updater
+# notifier
 
-Automatic modpack updater
+Modpack update notifier
