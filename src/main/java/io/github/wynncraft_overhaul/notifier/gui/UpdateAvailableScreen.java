@@ -32,7 +32,7 @@ public class UpdateAvailableScreen extends WarningScreen {
             }).dimensions(this.width / 2 - 100, l + 72 + 12, 98, 20).build());
         }
 
-        this.addDrawableChild(ButtonWidget.builder(Text.literal("Continue"), (button) -> {
+        this.addDrawableChild(ButtonWidget.builder(Text.literal("Don't Update"), (button) -> {
             Notifier.UPDATE_AVAILABLE = false;
             this.client.setScreen(new TitleScreen());
         }).dimensions(this.width / 2 + 2, l + 72 + 12, 98, 20).build());

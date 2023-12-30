@@ -2,6 +2,7 @@ package io.github.wynncraft_overhaul.notifier;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -56,6 +57,8 @@ public class Notifier implements ModInitializer {
 			LOGGER.error("Invalid source!");
 		} catch (InterruptedException e) {
 			LOGGER.error("Failed to get upstream manifest!");
+		} catch (JsonSyntaxException e) {
+			LOGGER.error("Failed to parse manifest!");
 		}
 	}
 }
