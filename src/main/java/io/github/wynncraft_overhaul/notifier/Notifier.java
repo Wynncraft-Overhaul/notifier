@@ -24,8 +24,17 @@ public class Notifier implements ModInitializer {
 	public static Path INSTALLER_PATH;
 	public static String UPSTREAM_VERSION;
 	public static String LOCAL_VERSION;
+	public static Config config;
 
-	@Override
+    static {
+        try {
+            config = Config.load();
+        } catch (IOException e) {
+            LOGGER.error("Failed to load config!", e);
+        }
+    }
+
+    @Override
 	public void onInitialize() {
 		Gson gson = new Gson();
 		try {
@@ -43,7 +52,7 @@ public class Notifier implements ModInitializer {
 				return;
 			}
 			UPSTREAM_VERSION = upstream_manifest.get("modpack_version").getAsString();
-			if (!UPSTREAM_VERSION.equals(LOCAL_VERSION)) {
+			if (!UPSTREAM_VERSION.equals(LOCAL_VERSION) && !config.ignoredVersions.contains(UPSTREAM_VERSION)) {
 				UPDATE_AVAILABLE = true;
 				Path installer_path = Path.of(local_manifest.get("installer_path").getAsString());
 				if (installer_path.toFile().isFile()) {
