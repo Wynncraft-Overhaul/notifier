@@ -4,6 +4,8 @@ import io.github.wynncraft_overhaul.notifier.Notifier;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.WarningScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+import net.minecraft.client.gui.widget.LayoutWidget;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -20,32 +22,31 @@ public class UpdateAvailableScreen extends WarningScreen {
     }
 
     @Override
-    protected void initButtons(int yOffset) {
-        int l = this.height / 4 + 48;
+    protected LayoutWidget getLayout() {
         int width = 110;
-        int margin = (this.width / 3 - width) / 2;
+        DirectionalLayoutWidget layoutWidget = DirectionalLayoutWidget.horizontal().spacing((this.width / 3 - width) / 2);
 
         if (Notifier.INSTALLER_PATH != null) {
-            this.addDrawableChild(ButtonWidget.builder(Text.literal("Open Installer"), (button) -> {
+            layoutWidget.add(ButtonWidget.builder(Text.literal("Open Installer"), (button) -> {
                 try {
                     Process process = new ProcessBuilder(Notifier.INSTALLER_PATH.toString()).start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 this.client.scheduleStop();
-            }).dimensions(this.width / 3 - width, l + 72 + 12, width, 20).build());
+            }).width(width).build());
         } else {
-            this.addDrawableChild(ButtonWidget.builder(Text.literal("Quit"), (button) -> {
+            layoutWidget.add(ButtonWidget.builder(Text.literal("Quit"), (button) -> {
                 this.client.scheduleStop();
-            }).dimensions(this.width / 3 - width, l + 72 + 12, width, 20).build());
+            }).width(width).build());
         }
 
-        this.addDrawableChild(ButtonWidget.builder(Text.literal("Don't Update"), (button) -> {
+        layoutWidget.add(ButtonWidget.builder(Text.literal("Don't Update"), (button) -> {
             Notifier.UPDATE_AVAILABLE = false;
             this.client.setScreen(new TitleScreen());
-        }).dimensions(this.width / 3 + margin, l + 72 + 12, width, 20).build());
+        }).width(width).build());
 
-        this.addDrawableChild(ButtonWidget.builder(Text.literal("Ignore This Version"), (button) -> {
+        layoutWidget.add(ButtonWidget.builder(Text.literal("Ignore This Version"), (button) -> {
             Notifier.UPDATE_AVAILABLE = false;
             Notifier.config.ignoredVersions.add(Notifier.UPSTREAM_VERSION);
             try {
@@ -54,6 +55,7 @@ public class UpdateAvailableScreen extends WarningScreen {
                 Notifier.LOGGER.error("Failed to save config!", e);
             }
             this.client.setScreen(new TitleScreen());
-        }).dimensions(this.width / 3 + width + margin * 2, l + 72 + 12, width, 20).build());
+        }).width(width).build());
+        return layoutWidget;
     }
 }
